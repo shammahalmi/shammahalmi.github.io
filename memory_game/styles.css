@@ -18,7 +18,7 @@ body {
 
 .memory-game {
   width: 80vw; /* Adjust as needed */
-  max-width: 640px; /* Set a max width if necessary */
+  max-width: 800px; /* Set a max width if necessary */
   height: 80vh; /* Adjust as needed */
   display: flex;
   flex-wrap: wrap;
@@ -26,19 +26,13 @@ body {
 }
 
 .memory-card {
-  /*
-  width: calc(25% - 10px); subtract the margin value from width and height 
-  height: calc(25% - 10px);
-  margin: 5px;*/
-  width: calc(25% - 2.5%); /* Adjust margin calculation */
-  height: calc(25% - 2.5%);
-  margin: 1.25%; /* Adjust margin percentage */
+  width: calc(100% / var(--columns) - 10px);
+  height: calc(100% / var(--rows) - 10px);
+  margin: 5px; /* Adjust margin percentage */
   position: relative;
   transform: scale(1);
   transform-style: preserve-3d;
   transition: transform 0.5s;
-
-  /*box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);*/
 }
 
 .memory-card:active {

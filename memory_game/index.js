@@ -16,25 +16,39 @@ let firstCard, secondCard;
 let timer;
 let moves = 0;
 let score = 1000;
+let gameStarted = false;
 
 let time = document.getElementById("time");
+let gameScore = document.getElementById("score");
 
 function startTimer() {
   let seconds = 0;
-  //clearInterval(timer);
   stopTimer(timer);
   timer = setInterval(() => {
     seconds++;
-    time.innerHTML = " Time: " + seconds;
+    time.innerHTML = "Time: " + seconds;
   }, 1000);
 }
 
 function stopTimer() {
   clearInterval(timer);
+  timer = 0;
+}
+
+function resetGame() {
+  time.innerHTML = "Time: 0";
+  stopTimer();
+  score = 1000;
+  gameScore.innerHTML = `Score: ${score}`;
+  gameStarted = false;
 }
 
 function flipCard() {
-  //this.classList.toggle("flip"); // if the class is there remove it ,if not add it the same with : this.classList.add("flip");
+  if (!gameStarted) {
+    gameStarted = true;
+    // Start the timer when the game starts
+    startTimer();
+  }
 
   if (lockBoard) return;
   if (this === firstCard) return; // when we are in the second click and the same card clicked so return
@@ -56,7 +70,7 @@ function flipCard() {
 
 function updateScore() {
   score -= 10;
-  document.getElementById("score").textContent = `Score: ${score}`;
+  gameScore.innerHTML = `Score: ${score}`;
 }
 
 function calculateFinalScore() {
@@ -76,9 +90,7 @@ function calculateFinalScore() {
 
 function checkForMatch() {
   let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-  console.log("is match:", isMatch);
 
-  // isMatch ? disableCards() : unflipCards();
   if (isMatch) {
     disableCards();
 
@@ -88,6 +100,7 @@ function checkForMatch() {
       document.querySelectorAll(".memory-card").length
     ) {
       stopTimer();
+      gameStarted = false;
       calculateFinalScore();
       console.log("Game completed!");
     }
@@ -130,6 +143,29 @@ function shuffle() {
 }
 
 function createGameBoard(numberOfCards, category) {
+  resetGame();
+
+  let columns = 0;
+  let rows = 0;
+
+  // Determine number of cards, columns, and rows based on difficulty
+  switch (numberOfCards) {
+    case 16:
+      columns = 4;
+      rows = 4;
+      break;
+    case 20:
+      columns = 5;
+      rows = 4;
+      break;
+    case 36:
+      columns = 6;
+      rows = 6;
+      break;
+    default:
+      break;
+  }
+
   // Clear existing cards
   document.querySelector(".memory-game").innerHTML = "";
 
@@ -158,10 +194,10 @@ function createGameBoard(numberOfCards, category) {
   // Add event listeners to the new cards
   document.querySelectorAll(".memory-card").forEach((card) => {
     card.addEventListener("click", flipCard);
+    card.style.setProperty("--columns", columns);
+    card.style.setProperty("--rows", rows);
   });
 
   // Shuffle the cards
   shuffle();
-  // Start the timer when the game starts
-  startTimer();
 }
