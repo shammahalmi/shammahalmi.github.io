@@ -8,9 +8,7 @@
 body {
   min-height: 100vh;
   display: flex;
-  background: #9094ff;
   background: #d1dbe5;
-
   flex-direction: column; /*Change to column */
   align-items: center; /* Center horizontally */
   justify-content: center; /* Center vertically */

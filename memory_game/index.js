@@ -14,16 +14,17 @@ let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
 let timer;
-let moves = 0;
-let score = 1000;
+let score;
 let gameStarted = false;
+let seconds;
 
 let time = document.getElementById("time");
 let gameScore = document.getElementById("score");
+const finalScoreElement = document.getElementById("final-score");
 
 function startTimer() {
-  let seconds = 0;
-  stopTimer(timer);
+  seconds = 0;
+  stopTimer();
   timer = setInterval(() => {
     seconds++;
     time.innerHTML = "Time: " + seconds;
@@ -38,9 +39,9 @@ function stopTimer() {
 function resetGame() {
   time.innerHTML = "Time: 0";
   stopTimer();
-  score = 1000;
-  gameScore.innerHTML = `Score: ${score}`;
+
   gameStarted = false;
+  finalScoreElement.innerHTML = "Final Score: 0";
 }
 
 function flipCard() {
@@ -63,7 +64,6 @@ function flipCard() {
     return;
   }
   secondCard = this;
-  moves++;
   updateScore();
   checkForMatch();
 }
@@ -74,17 +74,7 @@ function updateScore() {
 }
 
 function calculateFinalScore() {
-  // Calculate the time taken to complete the game
-  const elapsedTime = seconds;
-
-  // Calculate the score based on the time (you can adjust the formula as needed)
-  const timeScore = Math.floor(10000 / (elapsedTime + 1)); // Example formula
-
-  // Add the time-based score to the overall score
-  score += timeScore;
-
-  // Update the UI to display the final score
-  const finalScoreElement = document.getElementById("final-score");
+  score = score - seconds * 10;
   finalScoreElement.textContent = `Final Score: ${score}`;
 }
 
@@ -153,18 +143,22 @@ function createGameBoard(numberOfCards, category) {
     case 16:
       columns = 4;
       rows = 4;
+      score = 1000;
       break;
     case 20:
       columns = 5;
       rows = 4;
+      score = 2000;
       break;
     case 36:
       columns = 6;
       rows = 6;
+      score = 3000;
       break;
     default:
       break;
   }
+  gameScore.innerHTML = `Score: ${score}`;
 
   // Clear existing cards
   document.querySelector(".memory-game").innerHTML = "";
