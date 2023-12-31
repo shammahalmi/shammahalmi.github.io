@@ -62,7 +62,9 @@ body {
 button,
 #time,
 #score,
-#final-score {
+#final-score,
+#level-label,
+#category-label {
   padding: 10px 20px;
   margin: 10px;
   font-size: 16px;
@@ -82,4 +84,12 @@ button:hover {
   text-align: center;
   justify-content: center;
   align-items: center;
+}
+.memory-card.hint-reveal {
+  transform: rotateY(180deg);
+}
+
+#hint-count {
+  margin-top: 10px;
+  font-size: 16px;
 }

@@ -9,15 +9,36 @@
   </head>
   <body>
     <div class="buttons">
-      <button id="btn16">Level 1</button>
-      <button id="btn20">Level 2</button>
-      <button id="btn36">Level 3</button>
+      <label id="level-label" for="level-dropdown">Select Level:</label>
+      <select id="level-dropdown">
+        <option value="16">Level 1</option>
+        <option value="20">Level 2</option>
+        <option value="36">Level 3</option>
+      </select>
+
+      <label id="category-label" for="category-dropdown"
+        >Select Category:</label
+      >
+      <select id="category-dropdown">
+        <option value="category1">Category 1</option>
+        <option value="category2">Category 2</option>
+        <option value="category3">Category 3</option>
+      </select>
+      <button id="start-game">Start Game</button>
+      <button id="hint-button">Hint</button>
+      <div id="hint-count">Remaining Hints:</div>
       <div id="time">Time: 0</div>
       <div id="score">Score: 1000</div>
       <div id="final-score">Final Score: 0</div>
     </div>
 
     <section class="memory-game"></section>
+    <div>
+      <a
+        href="https://www.youtube.com/watch?v=eMhiMsEC9Uk&list=PLLX1I3KXZ-YH-woTgiCfONMya39-Ty8qw"
+        >referans</a
+      >
+    </div>
 
     <script src="index.js"></script>
   </body>

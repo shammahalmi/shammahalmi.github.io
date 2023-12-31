@@ -1,14 +1,72 @@
-document.getElementById("btn16").addEventListener("click", function () {
-  createGameBoard(16, "category1");
+let maxHintCount;
+let hintCount;
+
+document.getElementById("start-game").addEventListener("click", function () {
+  const selectedLevel = document.getElementById("level-dropdown").value;
+  const selectedCategory = document.getElementById("category-dropdown").value;
+  createGameBoard(parseInt(selectedLevel, 10), selectedCategory);
+
+  maxHintCount = selectedLevel === "16" ? 1 : selectedLevel === "20" ? 2 : 3;
+  hintCount = maxHintCount;
+  updateHintCountDisplay();
 });
 
-document.getElementById("btn20").addEventListener("click", function () {
-  createGameBoard(20, "category2");
+document.getElementById("hint-button").addEventListener("click", function () {
+  if (!gameStarted || lockBoard || hintCount === 0) return; // Hint only available during the game
+
+  // Determine hint duration based on the selected level
+  let hintDuration = 500; // Default duration (in milliseconds)
+  const selectedLevel = document.getElementById("level-dropdown").value;
+  if (selectedLevel === "20") {
+    hintDuration = 1000; // Level 2: 1 second
+  } else if (selectedLevel === "36") {
+    hintDuration = 1500; // Level 3: 1.5 seconds
+  }
+  // Decrease the score for using a hint
+
+  updateScore();
+
+  hintCount--;
+  updateHintCountDisplay();
+
+  revealAllCardsForHint(hintDuration);
 });
 
-document.getElementById("btn36").addEventListener("click", function () {
-  createGameBoard(36, "category3");
-});
+function updateHintCountDisplay() {
+  document.getElementById(
+    "hint-count"
+  ).innerHTML = `Remaining Hints: ${hintCount}`;
+}
+
+function revealAllCardsForHint(duration) {
+  // Disable board during hint
+  lockBoard = true;
+
+  // Add a class to reveal all cards
+  document.querySelectorAll(".memory-card").forEach((card) => {
+    card.classList.add("hint-reveal");
+  });
+
+  // Set a timeout to remove the hint class and enable the board after the specified duration
+  setTimeout(() => {
+    document.querySelectorAll(".memory-card").forEach((card) => {
+      card.classList.remove("hint-reveal");
+    });
+    lockBoard = false;
+  }, duration);
+}
+
+// Modify the event listeners for dropdown change
+document
+  .getElementById("level-dropdown")
+  .addEventListener("change", function () {
+    resetGame();
+  });
+document
+  .getElementById("category-dropdown")
+  .addEventListener("change", function () {
+    resetGame();
+  });
 
 let hasFlippedCard = false;
 let lockBoard = false;
@@ -92,7 +150,9 @@ function checkForMatch() {
       stopTimer();
       gameStarted = false;
       calculateFinalScore();
-      console.log("Game completed!");
+      setTimeout(() => {
+        alert("Game completed!");
+      }, 500);
     }
   } else {
     unflipCards();
@@ -177,7 +237,6 @@ function createGameBoard(numberOfCards, category) {
     const backFace = document.createElement("img");
     backFace.classList.add("back-face");
     backFace.src = "img/" + category + "/category_photo.png";
-    backFace.alt = "Fruits";
 
     card.appendChild(frontFace);
     card.appendChild(backFace);
