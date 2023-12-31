@@ -15,7 +15,7 @@ document.getElementById("hint-button").addEventListener("click", function () {
   if (!gameStarted || lockBoard || hintCount === 0) return; // Hint only available during the game
 
   // Determine hint duration based on the selected level
-  let hintDuration = 500; // Default duration (in milliseconds)
+  let hintDuration = 750; // Default duration (in milliseconds)
   const selectedLevel = document.getElementById("level-dropdown").value;
   if (selectedLevel === "20") {
     hintDuration = 1000; // Level 2: 1 second

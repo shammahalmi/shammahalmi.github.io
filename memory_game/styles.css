@@ -81,6 +81,7 @@ button:hover {
 .buttons {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   text-align: center;
   justify-content: center;
   align-items: center;
