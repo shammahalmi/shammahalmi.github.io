@@ -183,7 +183,6 @@ function resetBoard() {
   [firstCard, secondCard] = [null, null];
 }
 
-// for the positions of cards to be random ,when you add () and () to the function it is gonna call itself immediately
 function shuffle() {
   const cards = document.querySelectorAll(".memory-card");
   cards.forEach((card) => {
